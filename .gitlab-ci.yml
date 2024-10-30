@@ -1,0 +1,345 @@
+# image: maven:latest
+
+# stages:
+#   - compile
+#   - test
+#   - package
+#   - clean
+
+# before_script:
+#   - export PATH=$PATH:opt/apache-maven-3.8.1/bin
+#   - chmod +x runReferenceServer.sh
+#   - apt-get update -y
+#   - apt-get upgrade -y
+#   - apt-get install make
+
+# build job:
+#     stage: compile
+#     script:
+#       - echo "Compiling the application..."
+#       - mvn clean
+#       - mvn verify
+#       - mvn compile
+
+# test job:
+#     stage: test
+#     script:
+#       - mvn unit-test
+
+# deploy job:
+#     stage: package
+#     script:
+#       - echo "Packaging the application..."
+#       - mvn package
+
+
+# clean job:
+#       stage: clean
+#       script:
+#         - echo "Cleaning project..."
+#         - mvn clean
+
+#image: maven:latest
+#
+#stages:
+#  - build
+#  - test
+#  - package
+#  - deploy
+#
+#build_job:
+#  stage: build
+#  script:
+#    - echo "Maven compile started..."
+#    - "mvn compile"
+#
+#test_job:
+#  stage: test
+#  script:
+#    - echo "Maven test started..."
+#    - "mvn test"
+#
+#package_job:
+#  stage: package
+#  script:
+#    - echo "Maven package started..."
+#    - "mvn package"
+#
+#deploy_job:
+#  stage: deploy
+#  script:
+#    - echo "Deploying to Docker..."
+
+#image: maven:latest
+#
+#stages:
+#  - build
+#  - test
+#  - package
+#  - deploy
+#
+#variables:
+#  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+#
+#cache:
+#  paths:
+#    - .m2/repository
+#
+#before_script:
+#  - cd $CI_PROJECT_DIR
+#
+#build_job:
+#  stage: build
+#  script:
+#    - echo "Maven compile started..."
+#    - mvn compile
+#
+#test_job:
+#  stage: test
+#  script:
+#    - echo "Maven test started..."
+#    - mvn test
+#
+#package_job:
+#  stage: package
+#  script:
+#    - echo "Maven package started..."
+#    - mvn package
+#
+#deploy_job:
+#  stage: deploy
+#  script:
+#    - echo "Deploying to Docker..."
+#    - docker build -t myapp:latest .
+#    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+#    - docker tag myapp:latest myrepo/myapp:latest
+#    - docker push myrepo/myapp:latest
+#
+#
+
+#image: maven:latest
+#
+#stages:
+#  - build
+#  - test
+##  - deploy
+#
+#variables:
+#  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+#
+#cache:
+#  paths:
+#    - .m2/repository
+#
+#before_script:
+#  - echo "Setting up environment. . ."
+#  - apt-get update && apt-get install -y make
+#
+#build_job:
+#  stage: build
+#  image: maven:latest
+#  script:
+#    - echo "Maven build started..."
+#    - make clean
+#    - mvn verify -DskipTests
+#    - mvn package
+#
+#  artifacts:
+#    paths:
+#      - target/
+#
+#
+#test_job:
+#  stage: test
+#  image: maven:latest
+#  script:
+#    - echo "Maven test started..."
+#    - mvn test
+#
+#  dependencies:
+#    - build_job
+#  artifacts:
+#    reports:
+#      junit:
+#        - target/surefire-reports/*.xml
+#
+
+
+# image: maven:latest
+
+# stages:
+#   - build
+#   - test
+
+# variables:
+#   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+# # cache:
+# #   paths:
+# #     - .m2/repository
+
+# before_script:
+#   - echo "Setting up environment. . ."
+#   - apt-get update 
+#   - apt-get upgrade -y 
+#   - apt-get install -y make
+#   - cd robot_worlds
+
+# build_job:
+#   stage: build
+#   script:
+#     - echo "Maven build started..."
+#     - make clean compile
+#     - make package -DskipTests
+
+
+#   artifacts:
+#     paths:
+#       - target/
+
+# test_job:
+#   stage: test
+#   script:
+#     - echo "Maven test started..."
+#     - make test
+
+#   dependencies:
+#     - build_job
+#   artifacts:
+#     reports:
+#       junit:
+#         - target/surefire-reports/*.xml
+
+# Uncomment and configure the deploy_job if deployment is needed
+# deploy_job:
+#   stage: deploy
+#   script:
+#     - echo "Deploying to Docker..."
+#     - docker build -t myapp:latest .
+#     - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+#     - docker tag myapp:latest myrepo/myapp:latest
+#     - docker push myrepo/myapp:latest
+
+#deploy_job:
+#  stage: deploy
+#  script:
+#    - echo "Deploying to Docker..."
+#    - docker build -t myapp:latest .
+#    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+#    - docker tag myapp:latest myrepo/myapp:latest
+#    - docker push myrepo/myapp:latest
+
+
+# image: maven:latest
+
+# stages:
+#   - build
+#   - test
+#   - package
+
+# variables:
+#   MVN_CLI_OPTS: "--batch-mode -errors --fail-at-end --show-version -Dmaven.repo.local=.m2/repository"
+
+# before_script:
+#   - echo "Setting up environment. . ."
+#   - apt-get update 
+#   - apt-get upgrade -y 
+#   - apt-get install -y make
+#   - cd robot_worlds
+#   - java -jar libs/reference-server-0.2.3.jar && echo $$ > $SERVERPID
+#   - echo "Robot Server running on port $SERVERPORT"
+
+# build_job:
+#   stage: build
+#   script:
+#     - echo "Maven build started..."
+#     - mvn $MVN_CLI_OPTS clean compile
+#   timeout: 30m
+
+#   artifacts:
+#     paths:
+#       - target/*.jar
+
+# test_job:
+#   stage: test
+#   script:
+#     - echo "Maven test started..."
+#     - mvn $MVN_CLI_OPTS test
+#   timeout: 30m  
+
+
+#   dependencies:
+#     - build_job
+#   artifacts:
+#     reports:
+#       junit: 
+#         - target/surefire-reports/*.xml
+
+# package_job:
+#   stage: package
+#   script:
+#     - echo "Maven package started..."
+#     - mvn $MVN_CLI_OPTS package
+#   timeout: 30m  
+#   artifacts:
+#     paths:
+#       - target/
+
+# after_script:
+#   - kill `cat $SERVERPID`
+image: maven:latest
+
+stages:
+  - build
+  - test
+  - package
+
+variables:
+  MVN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -Dmaven.repo.local=.m2/repository"
+  SERVERPID: "server.pid"  # Save the PID to a file
+
+before_script:
+  - echo "Setting up environment..."
+  - apt-get update 
+  - apt-get upgrade -y 
+  - apt-get install -y make
+  - apt-get install -y procps
+  - apt-get install -y lsof
+  - cd robot_worlds
+  - nohup java -jar robot_worlds/libs/reference-server-0.2.3.jar -p=5000 -s=2 -o=1,1 & echo $! > $SERVERPID
+  - echo "Robot Server running on port $SERVERPORT"
+
+build_job:
+  stage: build
+  script:
+    - echo "Maven build started..."
+    - mvn $MVN_CLI_OPTS clean compile
+  artifacts:
+    paths:
+      - target/*.jar
+
+test_job:
+  stage: test
+  script:
+    - echo "Maven test started..."
+    - mvn $MVN_CLI_OPTS test
+  dependencies:
+    - build_job
+  artifacts:
+    reports:
+      junit: 
+        - target/surefire-reports/*.xml
+
+package_job:
+  stage: package
+  script:
+    - echo "Maven package started..."
+    - mvn $MVN_CLI_OPTS package
+  artifacts:
+    paths:
+      - target/
+
+after_script:
+  - cd robot_worlds
+#  - kill $(cat $SERVERPID)
+  - echo "Server stopped"
