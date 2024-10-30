@@ -97,14 +97,4 @@ This command restores the world state(World size and Obstacles) to one of the st
 3. **Save command**
 
 This command saves the world state(World size and Obstacles) in a database
-### Contributing
 
-We welcome contributions to the Amazing Robot World project! If you'd like to contribute, please follow these steps:
-
-1. **Fork the repository** and create your branch from `main`.
-
-2. **Make your changes**, ensuring adherence to coding standards.
-
-3. **Test your changes** thoroughly to ensure they function as expected.
-
-4. **Submit a pull request** detailing the changes made and any relevant information.
