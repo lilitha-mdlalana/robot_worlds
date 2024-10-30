@@ -108,7 +108,3 @@ We welcome contributions to the Amazing Robot World project! If you'd like to co
 3. **Test your changes** thoroughly to ensure they function as expected.
 
 4. **Submit a pull request** detailing the changes made and any relevant information.
-
-### License
-
-This project is licensed under the WeThinkCode, Please Contact WeThinkCode for more details.
